@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Savings Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fffbee;
+            color: #333;
+            text-align: center;
+        }
+        .calculator-container {
+            background-color: #fff5cc;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+        }
+        .calculator-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .calculator-container input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .calculator-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .calculator-container button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .qr-container {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #ffeb99;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h2>Tax Savings Calculator</h2>
+        <label for="income">Enter Your Gross Income (Before Tax):</label>
+        <input type="number" id="income" placeholder="Enter your taxable income" required>
+
+        <label for="fhsa">Enter FHSA Contribution:</label>
+        <input type="number" id="fhsa" placeholder="Enter FHSA contribution">
+
+        <label for="rrsp">Enter RRSP Contribution:</label>
+        <input type="number" id="rrsp" placeholder="Enter RRSP contribution">
+
+        <button onclick="calculateTax()">Calculate Tax</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <div class="qr-container">
+        <h3 style="color: #1a1a1a; font-size: 1.9em; font-weight: bold; margin-bottom: 15px;">Get in Touch</h3>
+        <p style="font-size: 1.15em; color: #2f2f2f; line-height: 1.8;">
+            Take the first step toward <b> Smart Investing</b> and <b>Tax Savings</b>—Let’s make it simple! <br> 
+            Scan the code below to connect with me today and discover your perfect financial strategy.
+        </p>
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQMAAACXljzdAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABkUlEQVRYhdWYPbKDMAyExbig5Ag5CjeLfTSO4iNQUjAouyuSvJ9JHeGCMf5SIHu1kmP2cVTnMBvX2Yd9xHzQypGA3PWBWFvxoz3mXEpOinuvnM8ez2Gf3NsVCHZ+nZu2v12HWNkYTCG6BAnt+DYxkrH/U9UXSWQjdT23o2y3pf7O05zkHNjlxfg2tz82l5Iwno7HNi2GSDr2v6yIKjeBdiaqmH7NU5Bf91NVaUl15GElYWjMSRex1ORetqmHaqB7QzwHdVQzkKraF66MtS5d37zlJogBClHFNsXTngrJTIyn8PZrOgkrCqNKTAbJeJCHMCqchUFMNTcxekioHNNRWg/tZCYwjlW+AeeDh9xUGDuj+j6hK7PrPHtlVZFJOZmcRB6+nM8KAqzJScEpVCiEzmdjn+MU/EhN7BUPM3OLU3BPTqokHq7NLvp5m7LUJHp/uYepNrrJ+Y4MJG56qiKmDv+HdrITOR+6Tnt3G1cg0Xua7oMcyUm87fq3SNmIuu1LzU3ObDz7UdTGxmI5t9zk43gANIKLyGZbnOwAAAAASUVORK5CYII=" alt="QR Code" style="margin-top: 20px; width: 160px; height: 160px;">
+    </div>
+
+    <div class="disclaimer" style="margin-top: 20px; font-size: 0.9em; color: #666;">
+        <p style="font-size: 0.85em; color: #2f2f2f; line-height: 1.8;">
+        Disclaimer: The estimates provided here are based on 2024 rates and may not reflect individual tax situations.
+        </p>
+    </div>
+
+    <footer>
+        <p>© 2024 Tax Savings & Financial Guidance</p>
+    </footer>
+
+    <script>
+        function calculateFederalTax(income) {
+            let federalTax = 0;
+
+            if (income > 246752) {
+                federalTax += (income - 246752) * 0.33;
+                income = 246752;
+            }
+            if (income > 173205) {
+                federalTax += (income - 173205) * 0.29;
+                income = 173205;
+            }
+            if (income > 111733) {
+                federalTax += (income - 111733) * 0.26;
+                income = 111733;
+            }
+            if (income > 55867) {
+                federalTax += (income - 55867) * 0.205;
+                income = 55867;
+            }
+            federalTax += income * 0.15;
+
+            return federalTax;
+        }
+
+        function calculateProvincialTax(income) {
+            let provincialTax = 0;
+
+            if (income > 220000) {
+                provincialTax += (income - 220000) * 0.1316;
+                income = 220000;
+            }
+            if (income > 150000) {
+                provincialTax += (income - 150000) * 0.1216;
+                income = 150000;
+            }
+            if (income > 102894) {
+                provincialTax += (income - 102894) * 0.1116;
+                income = 102894;
+            }
+            if (income > 51446) {
+                provincialTax += (income - 51446) * 0.0915;
+                income = 51446;
+            }
+            provincialTax += income * 0.0505;
+
+            return provincialTax;
+        }
+
+        function calculateTax() {
+            let income = parseFloat(document.getElementById("income").value);
+            let fhsa = parseFloat(document.getElementById("fhsa").value) || 0;
+            let rrsp = parseFloat(document.getElementById("rrsp").value) || 0;
+
+            let adjustedIncome = income - fhsa - rrsp;
+
+            let federalTaxOriginal = calculateFederalTax(income);
+            let provincialTaxOriginal = calculateProvincialTax(income);
+            let totalTaxOriginal = federalTaxOriginal + provincialTaxOriginal;
+
+            let federalTaxAdjusted = calculateFederalTax(adjustedIncome);
+            let provincialTaxAdjusted = calculateProvincialTax(adjustedIncome);
+            let totalTaxAdjusted = federalTaxAdjusted + provincialTaxAdjusted;
+
+            let taxSavings = totalTaxOriginal - totalTaxAdjusted;
+
+            document.getElementById("result").innerHTML = `
+                <h3>Tax Results:</h3>
+                <p><strong>Original Federal Tax:</strong> $${federalTaxOriginal.toFixed(2)}</p>
+                <p><strong>Original Provincial Tax:</strong> $${provincialTaxOriginal.toFixed(2)}</p>
+                <p><strong>Total Original Tax:</strong> $${totalTaxOriginal.toFixed(2)}</p>
+                <hr>
+                <p><strong>Adjusted Federal Tax (with FHSA & RRSP):</strong> $${federalTaxAdjusted.toFixed(2)}</p>
+                <p><strong>Adjusted Provincial Tax (with FHSA & RRSP):</strong> $${provincialTaxAdjusted.toFixed(2)}</p>
+                <p><strong>Total Adjusted Tax (with FHSA & RRSP):</strong> $${totalTaxAdjusted.toFixed(2)}</p>
+                <hr>
+                <p><strong>Total Tax Savings:</strong> $${taxSavings.toFixed(2)}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
